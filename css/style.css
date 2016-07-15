@@ -1,8 +1,17 @@
-body {
+html {
   font-size: 32px;
   text-align: center;
   font-family: 'Abel';
   background-color: #7683D2;
+}
+
+h1 {
+  margin: 0px;
+}
+
+input {
+  margin-top: 5px;
+  background-color: #DDD;
 }
 
 footer {
@@ -10,16 +19,49 @@ footer {
   width: 100%;
   text-align: right;
   bottom: 0px;
+  font-size: 20px;
 }
 
 a {
   margin-right: 6px;
-  font-size: 16px;
+}
+
+button {
+  position: absolute;
+}
+
+#overlay {
+  position: absolute;
+  overflow-y: scroll;
+  top: 10%;
+  left: 10%;
+  width: 80%;
+  height: 80%;
+  color: white;
+  border: 2px solid grey;
+  background-color: rgba(0, 0, 0, 0.85);
 }
 
 #todo-prompt {
-  width: 95%;
+  width: 560px;
   text-align: center;
   background-color: #DDD;
   resize: none;
+  overflow: hidden;
+}
+
+#todo-text {
+  position: absolute;
+  color: rgba(221, 221, 221, 0.8);
+  left: 5px;
+}
+
+#set-todo-button, #multi-todo-button {
+  position: static;
+  margin-top: 5px;
+}
+
+#get-todo-button {
+  left: 5px;
+  bottom: 5px;
 }

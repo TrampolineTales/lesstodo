@@ -6,4 +6,4 @@ A to-do list application that only displays one task at a time to reduce anxiety
 _Coming Soon_
 
 ## License
-LessToDo is released under the MIT License, see the [LICENSE](./LICENSE) file for details.
+LessToDo is released under the GNU AGPLv3 License, see the [LICENSE](./LICENSE) file for details.
