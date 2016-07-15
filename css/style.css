@@ -56,7 +56,7 @@ button {
   left: 5px;
 }
 
-#set-todo-button, #multi-todo-button {
+#set-todo-button, #import-todo-button {
   position: static;
   margin-top: 5px;
 }

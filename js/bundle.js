@@ -11,7 +11,16 @@ if (window.localStorage.toDos != undefined) {
 
 var otherButtonsBool = false;
 
-$(document).ready(function(){
+if ((window.localStorage.toDoNum != undefined) || (window.localStorage.toDoNum == -1)) {
+  var toDoNum = JSON.parse(window.localStorage.toDoNum);
+  window.localStorage.setItem('toDoNum', 0);
+} else {
+  var toDoNum;
+}
+
+var reader = new FileReader();
+
+$(document).ready(function() {
   var $window = $(window);
   var $body = $('body');
   var $toDoPrompt = $('#todo-prompt');
@@ -22,6 +31,8 @@ $(document).ready(function(){
   var $deleteToDoButton;
   var $aboutButton = $('#about-button');
   var $overlay;
+  var $input = $('input');
+  var $inputContainer = $('#input-container');
 
   function resize() {
     $toDoText.css('top', $window.height() - parseFloat($getToDoButton.css('height')) - parseFloat($toDoText.css('height')) - 5);
@@ -40,25 +51,81 @@ $(document).ready(function(){
     }
   }
 
-  function getToDo() {
+  function removeToDo() {
+    toDoNum = JSON.parse(window.localStorage.toDoNum);
+    toDos.splice(toDoNum, 1);
+    window.localStorage.setItem('toDos', JSON.stringify(toDos));
+    if (toDoNum >= toDos.length) {
+      window.localStorage.setItem('toDoNum', -1);
+      toDoNum = JSON.parse(window.localStorage.toDoNum);
+      getToDo(0);
+    } else {
+      getToDo(toDoNum);
+    }
+    if (toDos.length == 0) {
+      otherButtonsBool = false;
+      $finishToDoButton.remove();
+      $getToDoButton.text('Get a ToDo');
+    }
+  }
+
+  function getToDo(pToDoNum) {
     if (toDos.length > 0) {
       if (!otherButtonsBool) {
+        window.localStorage.setItem('toDoNum', -1)
         otherButtonsBool = true;
         $getToDoButton.text('Get Another');
-        $finishToDoButton = $('<button>').attr('id', 'finish-todo-button').text('Finish').appendTo($bottomButtons);
-        $deleteToDoButton = $('<button>').attr('id', 'delete-todo-button').text('Delete').appendTo($bottomButtons);
+        $finishToDoButton = $('<button>').attr('id', 'finish-todo-button').text('Mark as Finished').appendTo($bottomButtons);
+        // $deleteToDoButton = $('<button>').attr('id', 'delete-todo-button').text('Delete').appendTo($bottomButtons);
+        $finishToDoButton.click(removeToDo);
       }
-      $toDoText.text(toDos[Math.floor(Math.random() * toDos.length)].text);
+      if (toDoNum >= toDos.length - 1) {
+        window.localStorage.setItem('toDoNum', -1);
+      }
+      if (typeof(pToDoNum) == 'object') {
+        toDoNum = JSON.parse(window.localStorage.toDoNum) + 1;
+      } else {
+        toDoNum = pToDoNum;
+      }
+      $toDoText.text(toDos[toDoNum].text);
+      window.localStorage.setItem('toDoNum', toDoNum);
       resize();
+    } else {
+      $toDoText.text('');
+    }
+  }
+
+  reader.onload = function() {
+    var arr = reader.result.split('\n');
+    for (var i = 0; i < arr.length; i++) {
+      toDos.push(new ToDo(arr[i]));
+    }
+    window.localStorage.setItem('toDos', JSON.stringify(toDos));
+    $input.remove();
+    $input = $('<input>').attr('type', 'file').appendTo($inputContainer);
+    alert('ToDos successfully imported.');
+  };
+
+  function importToDos() {
+    if (($input[0].files[0] == undefined) || ($input[0].files[0].type != 'text/plain')) {
+      alert('Please select a text file for importing.');
+    } else {
+      reader.readAsText($input[0].files[0]);
     }
   }
 
   $toDoPrompt.focus();
+
+  if (window.localStorage.toDoNum != undefined) {
+    getToDo(JSON.parse(window.localStorage.toDoNum));
+  }
+
   $window.keypress(addToDo);
   $window.resize(resize);
   $('#set-todo-button').click(function() {
     addToDo(false);
   });
+  $('#import-todo-button').click(importToDos);
   $aboutButton.click(function() {
     if ($overlay == undefined) {
       $overlay = $('<div>').attr('id', 'overlay').html('<p>LessToDo was created by <a target="_blank" href="https://twitter.com/TrampolineTales">Dan DiIorio</a> as a solution to his own anxiety with planning out projects. Diagnosed with an <a target="_blank" href="https://en.wikipedia.org/wiki/Anxiety_disorder">anxiety disorder</a> at the age of 15, Dan always had trouble reading to-do lists without getting anxious and overwhelmed. LessToDo solves this issue by only displaying one ToDo at a time, even if the amount of work that actually needs to get done would feel overwhelming when looked at all at once. Dan has been using LessToDo to work on his own personal projects, and hopes you find success with it as well!</p><p>LessToDo is released under the <a target="_blank" href="https://github.com/TrampolineTales/lesstodo/blob/master/LICENSE">GNU AGPLv3 License</a></p><a id="close-button" href="#">Close</a>');
@@ -72,6 +139,7 @@ $(document).ready(function(){
     }
   });
   $getToDoButton.click(getToDo);
+  setTimeout(resize, 1);
 });
 
 },{"./objects/ToDo.js":2}],2:[function(require,module,exports){
