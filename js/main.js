@@ -41,9 +41,10 @@ $(document).ready(function() {
     }
   }
 
-  function addToDo(ignoreBool) {
+  function addToDo(e) {
+    console.log(e);
     $toDoPrompt[0].value = $toDoPrompt[0].value.replace(/(\r?\n|\r)/g, '');
-    if (((event.code == 'Enter') || (!ignoreBool)) && ($toDoPrompt[0].value != '')) {
+    if (((e.type == 'click') || (e.charCode == 13) ) && ($toDoPrompt[0].value != '')) {
       toDos.push(new ToDo($toDoPrompt[0].value));
       window.localStorage.setItem('toDos', JSON.stringify(toDos));
       $toDoPrompt[0].value = '';
@@ -121,9 +122,7 @@ $(document).ready(function() {
 
   $window.keypress(addToDo);
   $window.resize(resize);
-  $('#set-todo-button').click(function() {
-    addToDo(false);
-  });
+  $('#set-todo-button').click(addToDo);
   $('#import-todo-button').click(importToDos);
   $aboutButton.click(function() {
     if ($overlay == undefined) {
