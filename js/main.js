@@ -42,7 +42,6 @@ $(document).ready(function() {
   }
 
   function addToDo(e) {
-    console.log(e);
     $toDoPrompt[0].value = $toDoPrompt[0].value.replace(/(\r?\n|\r)/g, '');
     if (((e.type == 'click') || (e.charCode == 13) ) && ($toDoPrompt[0].value != '')) {
       toDos.push(new ToDo($toDoPrompt[0].value));
