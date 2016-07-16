@@ -43,7 +43,8 @@ $(document).ready(function() {
 
   function addToDo(e) {
     $toDoPrompt[0].value = $toDoPrompt[0].value.replace(/(\r?\n|\r)/g, '');
-    if (((e.type == 'click') || (e.charCode == 13) ) && ($toDoPrompt[0].value != '')) {
+    if (((e.type == 'click') || (e.key == 'Enter') || (e.keyCode == 13)) && ($toDoPrompt[0].value != '')) {
+      console.log('ToDo added');
       toDos.push(new ToDo($toDoPrompt[0].value));
       window.localStorage.setItem('toDos', JSON.stringify(toDos));
       $toDoPrompt[0].value = '';
