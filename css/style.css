@@ -11,7 +11,10 @@ h1 {
 
 input {
   margin-top: 5px;
-  background-color: #DDD;
+  background-color: #f2f2f2;
+  border-radius: 5px;
+  border: thin solid #212121;
+  padding: 2px;
 }
 
 footer {
@@ -24,10 +27,16 @@ footer {
 
 a {
   margin-right: 6px;
+  text-decoration: underline;
+  color: #f2f2f2;
 }
 
 button {
   position: absolute;
+      
+  font-weight: 600;
+  border-radius: 5px;
+  border: thin solid #212121;
 }
 
 #overlay {
@@ -38,21 +47,25 @@ button {
   width: 80%;
   height: 80%;
   color: white;
+  text-decoration: none;
   border: 2px solid grey;
-  background-color: rgba(0, 0, 0, 0.85);
+  background-color: rgba(33, 33, 33, 0.9);
 }
 
 #todo-prompt {
   width: 560px;
   text-align: center;
-  background-color: #DDD;
+  background-color: #f2f2f2;
+  border-radius: 5px;
+  border: thin solid #212121;
+  padding: 2px;
   resize: none;
   overflow: hidden;
 }
 
 #todo-text {
   position: absolute;
-  color: rgba(221, 221, 221, 0.8);
+  color: rgba(33, 33, 33, 0.9);
   left: 5px;
 }
 
@@ -64,4 +77,14 @@ button {
 #get-todo-button {
   left: 5px;
   bottom: 5px;
+  font-weight: 600;
+  border-radius: 5px;
+  border: thin solid #212121;
+}
+.otherlinks {
+  text-decoration: none;
+  color: #fff;
+}
+.otherlinks:hover {
+  text-decoration: underline;
 }
