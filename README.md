@@ -1,6 +1,3 @@
-#Edits in fork
-The edits in this for are to only improve the design of the project no js.
-
 # LessToDo
 A to-do list application that only displays one task at a time to reduce anxiety.
 
